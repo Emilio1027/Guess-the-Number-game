@@ -99,6 +99,7 @@ public class App {
                 }
             }           System.out.println("would you like to play again? (y or n): ");
                         playAgain = scanner.next();
+            
         }   while (playAgain.equalsIgnoreCase("y"));
                         System.out.println("Thank you for playing GUESS THE NUMBER GAME");
                         scanner.close();
