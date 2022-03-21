@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -29,7 +30,7 @@ public class App {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-         String playAgain = "";
+        String playAgain = "";
 
         System.out.println();
         System.out.println();
@@ -53,59 +54,61 @@ public class App {
         System.out.println("Well, " + name + " I am thinking of a number between 1 and 20");
         System.out.println();
 
-        do {
+        try {
+            do {
 
-            Random number = new Random();//accessing the Random class
-            /**the computer will pick a number from 1 to 20
-             * System.out.println("Secret number: " + secretNumber); this will show which is our
-             * secret number,so we can test our program
-             */
-            int secretNumber = number.nextInt(20) + 1;
+                Random number = new Random();//accessing the Random class
+                /**the computer will pick a number from 1 to 20
+                 * System.out.println("Secret number: " + secretNumber); this will show which is our
+                 * secret number,so we can test our program
+                 */
+                int secretNumber = number.nextInt(20) + 1;
+                System.out.println("Secret number: " + secretNumber);
+                int tries = 0;//how many times the player has tried to win, initial count
 
-            int tries = 0;//how many times the player has tried to win, initial count
+                while (true) {
 
-            while (true) {
+                    System.out.print("Take a guess (1 - 20): ");
+                    int playerGuessNumber = scanner.nextInt();
+                    tries++;
+                    System.out.println();
 
-                System.out.print("Take a guess (1 - 20): ");
-                int playerGuessNumber = scanner.nextInt();
-                tries++;
-                System.out.println();
+                    if (tries < 6) {
 
-                if (tries <= 5) {
+                        if (playerGuessNumber == secretNumber) {
+                            System.out.println();
+                            System.out.println("Good job! " + name + " You guessed my number within " + tries + " tries");
+                            System.out.println("The secret number was: " + secretNumber);
+                            System.out.println();
+                            break;
+                        }
+                        if (secretNumber > playerGuessNumber) {
+                            System.out.println("Your guess is too low: ");
+                        } else {
+                            System.out.println("Your guess is too high: ");
+                        }
 
-                    if (playerGuessNumber == secretNumber) {
-                        System.out.println();
-                        System.out.println("Good job! " + name + " You guessed my number within " + tries + " tries");
-                        System.out.println("The secret number was: " + secretNumber);
-                        System.out.println();
-                        break;
+                    } else {//if the user gets the answer wrong more than 6 times
+                        if (secretNumber != playerGuessNumber) {
+                            System.out.println();
+                            System.out.println("Sorry, you have to guess the correct number in 6 tries: Ran Out Of Attempts");
+                            System.out.println("The secret number was: " + secretNumber);
+                            System.out.println();
+                            break;
+                        }
                     }
-                    if (secretNumber > playerGuessNumber) {
-                        System.out.println("Your guess is too low: ");
-                    } else {
-                        System.out.println("Your guess is too high: ");
-                    }
-
-                } else {//if the user gets the answer wrong more than 6 times
-                    if (secretNumber != playerGuessNumber) {
-                        System.out.println();
-                        System.out.println("Sorry, you have to guess the correct number in 6 tries: Ran Out Of Attempts");
-                        System.out.println("The secret number was: " + secretNumber);
-                        System.out.println();
-
-                        break;
-                    }
-
                 }
-            }           System.out.println("would you like to play again? (y or n): ");
-                        playAgain = scanner.next();
-            
-        }   while (playAgain.equalsIgnoreCase("y"));
-                        System.out.println("Thank you for playing GUESS THE NUMBER GAME");
-                        scanner.close();
+                System.out.println("would you like to play again? (y or n): ");
+                playAgain = scanner.next();
 
 
+            } while (playAgain.equalsIgnoreCase("y"));
+            System.out.println("Thank you for playing GUESS THE NUMBER GAME");
+            scanner.close();
+
+
+        } catch (InputMismatchException e) {
+            System.out.println("Only numbers Please");
+        }
     }
 }
-
-
